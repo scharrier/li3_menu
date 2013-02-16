@@ -1,7 +1,7 @@
 li3_menu : Lithium menu generator
 =================================
 
-Creating a menu in Lithium should be easy. This little helper does only one think : it take a menu, identify the active link and render a ul/li menu.
+Creating a menu in Lithium should be easy. This little helper does only one thing : it takes a menu, identifies the active link and render a ul/li menu.
 
 Installation
 ------------
