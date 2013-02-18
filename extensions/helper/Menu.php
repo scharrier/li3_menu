@@ -82,6 +82,9 @@ class Menu extends \lithium\template\Helper {
     		}
     		$active = $this->_matches($mask, $this->request->params) ? 'active' : '' ;
 
+    		// Cleaning
+    		$mask = array_filter($mask) ;
+
     		$return[] = array('label' => $label, 'link' => Router::match($mask), 'active' => $active) + $options ;
 		}
 
@@ -99,7 +102,7 @@ class Menu extends \lithium\template\Helper {
 			if (!isset($current[$key])) {
 				return false ;
 			}
-			if (is_array($value) && !$this->_compare($mask[$key], $current[$key])) {
+			if (is_array($value) && !$this->_matches($mask[$key], $current[$key])) {
 				return false ;
 			}
 			if ($value !== $current[$key]) {

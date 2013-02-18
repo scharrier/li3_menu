@@ -1,0 +1,4 @@
+libraries/composer
+libraries/autoload.php
+composer.lock
+.DS_Store

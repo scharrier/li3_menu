@@ -1,0 +1,7 @@
+{
+	"name": "li3_menu",
+    "version": "0.1.0",
+    "config": {
+        "vendor-dir": "libraries"
+    }
+}
