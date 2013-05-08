@@ -1,7 +1,18 @@
 {
 	"name": "scharrier/li3_menu",
-    "version": "0.1.0",
-    "config": {
-        "vendor-dir": "libraries"
-    }
+	"type": "library",
+	"description": "Lithium simple menu generator",
+	"authors": [
+		{
+			"name": "Sebastien Charrier",
+			"email": "scharrier@gmail.com"
+		}
+	],
+	"keywords" : ["li3","lithium","menu","navigation"],
+	"licence" : "MIT",
+	"homepage" : "http://github.com/scharrier/li3_menu/",
+	"version": "0.1.0",
+	"config": {
+		"vendor-dir": "libraries"
+	}
 }
