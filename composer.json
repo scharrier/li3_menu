@@ -1,6 +1,6 @@
 {
 	"name": "scharrier/li3_menu",
-	"type": "library",
+	"type": "lithium-library",
 	"description": "Lithium simple menu generator",
 	"authors": [
 		{
@@ -13,9 +13,7 @@
 	"homepage" : "http://github.com/scharrier/li3_menu/",
 	"version": "0.1.0",
 	"require": {
-		"php" : ">=5.3.0"
-	},
-	"config": {
-		"vendor-dir": "libraries"
+		"php" : ">=5.3.0",
+		"composer/installers": "*"
 	}
 }
