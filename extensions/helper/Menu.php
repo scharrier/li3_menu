@@ -21,7 +21,7 @@ class Menu extends \lithium\template\Helper {
 
 	/**
 	 * Default properties.
-	 * 
+	 *
 	 * @var array
 	 */
 	static $defaults = array(
@@ -33,7 +33,7 @@ class Menu extends \lithium\template\Helper {
 
 	/**
 	 * Current request.
-	 * 
+	 *
 	 * @var \lithium\action\Request
 	 */
 	public $request ;
@@ -73,6 +73,8 @@ class Menu extends \lithium\template\Helper {
 	protected function _prepare(array $menu, array $options = array()) {
 		$return = array() ;
 		$active = '' ;
+		$current = array_filter($this->request->params) ;
+
 		foreach($menu as $label => $mask) {
 			$active = $active ? '' : 'active' ;
 			if (!is_array($mask)) {
@@ -80,7 +82,7 @@ class Menu extends \lithium\template\Helper {
     			$request->url = $mask ;
     			$mask = Router::parse($request)->params ;
     		}
-    		$active = $this->_matches($mask, $this->request->params) ? 'active' : '' ;
+    		$active = $this->_matches($mask, $current) ? 'active' : '' ;
 
     		// Cleaning
     		$mask = array_filter($mask) ;
@@ -105,7 +107,7 @@ class Menu extends \lithium\template\Helper {
 			if (is_array($value) && !$this->_matches($mask[$key], $current[$key])) {
 				return false ;
 			}
-			if ($value !== $current[$key]) {
+			if ($value !== strtolower($current[$key])) {
 				return false ;
 			}
 		}
