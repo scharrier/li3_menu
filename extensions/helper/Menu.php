@@ -1,9 +1,10 @@
 <?php
 namespace li3_menu\extensions\helper ;
 
-use lithium\net\http\Router ;
-use lithium\action\Request ;
-use lithium\util\String ;
+use lithium\net\http\Router;
+use lithium\action\Request;
+use lithium\util\String;
+use li3_menu\extensions\action\Url;
 
 /**
  * A helper class to facilitate generating, a menu, with automatic active classes.
@@ -106,7 +107,7 @@ class Menu extends \lithium\template\Helper {
 						$compare = array_filter(Router::parse($request)->params) ;
 					}
 
-    				$link['active'] = $this->_matches($compare, $current) ? 'active' : '' ;
+    				$link['active'] = Url::match($current, $compare) ? 'active' : '' ;
     			}
 
     			$active = !empty($link['active']) ;
@@ -116,26 +117,5 @@ class Menu extends \lithium\template\Helper {
 		}
 
 		return $return ;
-	}
-
-	/**
-	 * Check if a mask matches the current url.
-	 * @param  array $mask    	Mask to test
-	 * @param  array $current 	Current URL
-	 * @return bool          	Yep ? Nope ?
-	 */
-	protected function _matches(&$mask, &$current) {
-		foreach($mask as $key => $value) {
-			if (!isset($current[$key])) {
-				return false ;
-			}
-			if (is_array($value) && !$this->_matches($mask[$key], $current[$key])) {
-				return false ;
-			}
-			if (strtolower($value) !== strtolower($current[$key])) {
-				return false ;
-			}
-		}
-		return true ;
 	}
 }
