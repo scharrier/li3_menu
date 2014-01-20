@@ -26,7 +26,7 @@ class Menu extends \lithium\template\Helper {
 	 */
 	static $defaults = array(
 		'open' => '<ul class="menu {:class}">',
-		'content' => '<li class="menu-item {:active}"><a href="{:link}">{:label}</a></li>',
+		'content' => '<li class="menu-item {:active} {:class}"><a href="{:url}">{:label}</a></li>',
 		'close' => '</ul>',
 		'class' => ''
 	) ;
@@ -72,22 +72,47 @@ class Menu extends \lithium\template\Helper {
 	 */
 	protected function _prepare(array $menu, array $options = array()) {
 		$return = array() ;
-		$active = '' ;
+		$active = false ;
 		$current = array_filter($this->request->params) ;
 
 		foreach($menu as $label => $mask) {
-			$active = $active ? '' : 'active' ;
-			if (!is_array($mask)) {
-				$request = new Request();
-    			$request->url = $mask ;
-    			$mask = Router::parse($request)->params ;
+			$link = array('url' => null, 'label' => is_string($label) ? $label : null, 'class' => null, 'active' => null, 'mask' => null) ;
+
+			if (is_string($mask)) {
+    			$link['url'] = $mask ;
+			} elseif (array_intersect_key($mask, array('class' => true))) {
+				$link = $mask + $link ;
+			} else {
+				$link['url'] = $mask ;
+			}
+
+			if (!is_string($link['url'])) {
+				$link['url'] = Router::match($link['url']) ;
+			}
+
+
+			if (!$active) {
+				if ($link['active']) {
+					// Force the value
+					$link['active'] = 'active' ;
+				} else {
+					if ($link['mask']) {
+						// We have a mask. Easy.
+						$compare = array_filter($link['mask']) ;
+					} else {
+						// Only do this if we haven't found any active link yet and we haven't any mask to compare !
+						$request = new Request();
+						$request->url = $link['url'] ;
+						$compare = array_filter(Router::parse($request)->params) ;
+					}
+
+    				$link['active'] = $this->_matches($compare, $current) ? 'active' : '' ;
+    			}
+
+    			$active = !empty($link['active']) ;
     		}
-    		$active = $this->_matches($mask, $current) ? 'active' : '' ;
 
-    		// Cleaning
-    		$mask = array_filter($mask) ;
-
-    		$return[] = array('label' => $label, 'link' => Router::match($mask), 'active' => $active) + $options ;
+    		$return[] = $link ;
 		}
 
 		return $return ;
@@ -107,7 +132,7 @@ class Menu extends \lithium\template\Helper {
 			if (is_array($value) && !$this->_matches($mask[$key], $current[$key])) {
 				return false ;
 			}
-			if ($value !== strtolower($current[$key])) {
+			if (strtolower($value) !== strtolower($current[$key])) {
 				return false ;
 			}
 		}
