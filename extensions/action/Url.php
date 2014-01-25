@@ -35,7 +35,7 @@ class Url extends \lithium\core\Object {
 			if (is_array($value) && !static::match($mask[$key], $test[$key])) {
 				return false ;
 			}
-			if (strtolower($value) !== strtolower($test[$key])) {
+			if (is_string($value) && strtolower($value) !== strtolower($test[$key])) {
 				return false ;
 			}
 		}
