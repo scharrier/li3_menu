@@ -1,6 +1,7 @@
 {
 	"name": "scharrier/li3_menu",
 	"description": "Lithium simple menu generator",
+	"type": "lithium-library",
 	"authors": [
 		{
 			"name": "Sebastien Charrier",
